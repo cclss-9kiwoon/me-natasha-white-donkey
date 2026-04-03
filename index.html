@@ -1034,13 +1034,7 @@ function gameLoop(ts) {
 // ─────────────────────────────────────────
 //  START
 // ─────────────────────────────────────────
-function startGame() {
-  const titleScreen = document.getElementById('s1title_screen');
-  titleScreen.classList.add('fade-out');
-  setTimeout(() => {
-    titleScreen.style.display = 'none';
-    gameStarted = true;
-  }, 1500);
+function gameStartS1() {
   requestAnimationFrame(gameLoop);
 }
 
@@ -1049,7 +1043,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') {
     const ts = document.getElementById('s1title_screen');
     if (ts && ts.style.display !== 'none' && !ts.classList.contains('fade-out')) {
-      startGame();
+      gameStartS1();
     }
   }
 });
@@ -1915,10 +1909,7 @@ function gameLoop() {
   raf=requestAnimationFrame(gameLoop);
 }
 
-function startGame() {
-  const ts=document.getElementById('s2title_screen');
-  ts.classList.add('out');
-  setTimeout(()=>{ ts.style.display='none'; gameStarted=true; },1500);
+function gameStartS2() {
   buildPlatforms(0); buildFragments(0); buildInteractables(0);
   player.x=160; player.y=groundY-player.h;
   raf=requestAnimationFrame(gameLoop);
@@ -2808,10 +2799,7 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
-function startGame() {
-  const ts=document.getElementById('s3title_screen');
-  ts.classList.add('out');
-  setTimeout(()=>{ ts.style.display='none'; gameStarted=true; },1500);
+function gameStartS3() {
   resize();
   player.y=groundY-player.h;
   requestAnimationFrame(gameLoop);
@@ -2820,7 +2808,7 @@ function startGame() {
 document.addEventListener('keydown',e=>{
   if((e.key==='Enter'||e.key===' ')&&!gameStarted){
     const ts=document.getElementById('s3title_screen');
-    if(ts&&!ts.classList.contains('out')) startGame();
+    if(ts&&!ts.classList.contains('out')) gameStartS3();
   }
 });
 
@@ -3727,10 +3715,7 @@ function gameLoop(){
   requestAnimationFrame(gameLoop);
 }
 
-function startGame(){
-  const ts=document.getElementById('s4title_screen');
-  ts.classList.add('out');
-  setTimeout(()=>{ ts.style.display='none'; gameStarted=true; },1500);
+function gameStartS4(){
   resize();
   player.y=groundY-player.h;
   donkey.y=groundY-donkey.h;
@@ -3740,7 +3725,7 @@ function startGame(){
 document.addEventListener('keydown',e=>{
   if((e.key==='Enter'||e.key===' ')&&!gameStarted){
     const ts=document.getElementById('s4title_screen');
-    if(ts&&!ts.classList.contains('out')) startGame();
+    if(ts&&!ts.classList.contains('out')) gameStartS4();
   }
 });
 
@@ -4464,10 +4449,7 @@ function gameLoop(){
   requestAnimationFrame(gameLoop);
 }
 
-function startGame(){
-  const ts=document.getElementById('s5title_screen');
-  ts.classList.add('out');
-  setTimeout(()=>{ ts.style.display='none'; gameStarted=true; },1500);
+function gameStartS5(){
   resize();
   player.y=groundY-player.h; donkey.y=groundY-donkey.h;
   requestAnimationFrame(gameLoop);
@@ -4476,7 +4458,7 @@ function startGame(){
 document.addEventListener('keydown',e=>{
   if((e.key==='Enter'||e.key===' ')&&!gameStarted){
     const ts=document.getElementById('s5title_screen');
-    if(ts&&!ts.classList.contains('out')) startGame();
+    if(ts&&!ts.classList.contains('out')) gameStartS5();
   }
 });
 
@@ -4492,19 +4474,42 @@ function updateUI(){prog.c.forEach(n=>{document.getElementById('p'+(n-1))?.class
 updateUI();
 const SM={1:'눈 내리는 밤',2:'나타샤를 기다리며',3:'세상을 버리고',4:'흰 눈길과 초인',5:'나타샤와 흰 당나귀'};
 let cur=null;
+
+// Global startGame function
+function startGame(){
+  if(!cur) {
+    console.warn('startGame called but cur is not set');
+    return;
+  }
+  // Hide title screen
+  const ts=document.querySelector('#sw'+cur+' [id$="title_screen"]');
+  if(ts){
+    if(!ts.classList.contains('fade-out')&&!ts.classList.contains('out')){
+      ts.classList.add(ts.id==='s1title_screen'?'fade-out':'out');
+    }
+    setTimeout(()=>{ ts.style.display='none'; },1500);
+  }
+  // Set gameStarted and call stage-specific game start logic
+  gameStarted=true;
+  setTimeout(()=>{
+    if(window['gameStartS'+cur]) window['gameStartS'+cur]();
+  },100);
+}
 function launch(n){
-  const b=document.getElementById('b'+n);
-  if(n>1&&b&&b.classList.contains('lk'))return;
   document.getElementById('wp').classList.add('bk');
+  cur=n; // Set cur immediately
   setTimeout(()=>{
     document.getElementById('mm').classList.add('out');
     document.getElementById('cn').textContent='Stage 0'+n;
     document.getElementById('cm').textContent=SM[n];
     document.getElementById('sc').classList.add('show');
     document.querySelectorAll('.sw').forEach(c=>c.classList.remove('active'));
-    document.getElementById('sw'+n).classList.add('active');
+    const sw=document.getElementById('sw'+n);
+    sw.classList.add('active');
+    // Show title screen for all stages
+    const ts=sw.querySelector('[id$="title_screen"]');
+    if(ts){ts.classList.remove('out','fade-out');ts.style.display='block';}
     document.getElementById('eh').style.display='block';
-    cur=n;
     setTimeout(()=>{document.getElementById('wp').classList.remove('bk');setTimeout(()=>document.getElementById('sc').classList.remove('show'),1800);},400);
   },650);
 }
@@ -4523,15 +4528,14 @@ function goMenu(){
 // Initialize all stages as completed
 for(let i=1;i<=5;i++){if(!prog.c.includes(i))prog.c.push(i);}localStorage.setItem('pg4',JSON.stringify(prog));updateUI();
 
+
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur!==null)goMenu();});
 setTimeout(()=>{
   for(let n=1;n<=5;n++){
     const pfx='s'+n;
     const nb=document.getElementById(pfx+'next_btn');
     if(nb){const sn=n;nb.onclick=()=>{saveProg(sn);goMenu();if(sn<5)setTimeout(()=>launch(sn+1),1400);};}
-    const rb=document.getElementById(pfx+'restart_btn');
-    if(rb){const sn=n;rb.onclick=()=>{saveProg(sn);goMenu();};}
   }
-},800);
+},100);
 </script>
 </body></html>
