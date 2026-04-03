@@ -50,13 +50,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#03050c;cursor:none;
   <div class="sl">
     <button class="sb" id="b1" onclick="launch(1)"><span class="sn2">01</span><span style="flex:1">눈 내리는 밤</span><span class="sv">가난한 내가
 아름다운 나타샤를</span></button>
-    <button class="sb lk" id="b2" onclick="launch(2)"><span class="sn2">02</span><span style="flex:1">나타샤를 기다리며</span><span class="sv">나는 혼자 쓸쓸히
+    <button class="sb" id="b2" onclick="launch(2)"><span class="sn2">02</span><span style="flex:1">나타샤를 기다리며</span><span class="sv">나는 혼자 쓸쓸히
 소주를 마신다</span></button>
-    <button class="sb lk" id="b3" onclick="launch(3)"><span class="sn2">03</span><span style="flex:1">세상을 버리고</span><span class="sv">세상 같은 건
+    <button class="sb" id="b3" onclick="launch(3)"><span class="sn2">03</span><span style="flex:1">세상을 버리고</span><span class="sv">세상 같은 건
 더러워 버리는 것이다</span></button>
-    <button class="sb lk" id="b4" onclick="launch(4)"><span class="sn2">04</span><span style="flex:1">흰 눈길과 초인</span><span class="sv">백마 타고 오는
+    <button class="sb" id="b4" onclick="launch(4)"><span class="sn2">04</span><span style="flex:1">흰 눈길과 초인</span><span class="sv">백마 타고 오는
 초인이 있어</span></button>
-    <button class="sb lk" id="b5" onclick="launch(5)"><span class="sn2">05</span><span style="flex:1">나타샤와 흰 당나귀</span><span class="sv">응앙응앙
+    <button class="sb" id="b5" onclick="launch(5)"><span class="sn2">05</span><span style="flex:1">나타샤와 흰 당나귀</span><span class="sv">응앙응앙
 울 것이다</span></button>
   </div>
 </div>
@@ -318,7 +318,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#03050c;cursor:none;
     오늘밤은 푹푹 눈이 나린다
   </div>
   <div class="poet-note">— 백석, 1938</div>
-  <button id="s1next_btn" onclick="alert('다음 스테이지: 나타샤를 기다리며 (개발 예정)')">다음 스테이지 →</button>
+  <button id="s1next_btn">다음 스테이지 →</button>
 </div>
 
 <!-- Title screen -->
@@ -1218,7 +1218,7 @@ requestAnimationFrame(gameLoop);
     산골로 가자 출출이 우는 깊은 산골로 가자
   </div>
   <div class="poet-note">— 백석, 1938</div>
-  <button id="s2next_btn" onclick="alert('다음 스테이지: 세상을 버리고 (개발 예정)')">다음 스테이지 →</button>
+  <button id="s2next_btn">다음 스테이지 →</button>
 </div>
 
 <div id="s2title_screen">
@@ -2082,7 +2082,7 @@ requestAnimationFrame(gameLoop);
     세상 같은 건<br>더러워 버리는 것이다
   </div>
   <div class="poet-note">— 백석, 1938</div>
-  <button id="s3next_btn" onclick="alert('다음 스테이지: 흰 눈길과 초인 (개발 예정)')">다음 스테이지 →</button>
+  <button id="s3next_btn">다음 스테이지 →</button>
 </div>
 
 <div id="s3title_screen">
@@ -2994,7 +2994,7 @@ requestAnimationFrame(gameLoop);
     이 밤이 지새도록 나는 우는 것이다
   </div>
   <div class="poet-note">— 백석, 1938</div>
-  <button id="s4next_btn" onclick="alert('마지막 스테이지: 나타샤와 흰 당나귀 (개발 예정)')">마지막 스테이지 →</button>
+  <button id="s4next_btn">마지막 스테이지 →</button>
 </div>
 
 <div id="s4title_screen">
@@ -4520,13 +4520,16 @@ function goMenu(){
     updateUI();document.getElementById('wp').classList.remove('bk');cur=null;
   },650);
 }
+// Initialize all stages as completed
+for(let i=1;i<=5;i++){if(!prog.c.includes(i))prog.c.push(i);}localStorage.setItem('pg4',JSON.stringify(prog));updateUI();
+
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cur!==null)goMenu();});
 setTimeout(()=>{
   for(let n=1;n<=5;n++){
     const pfx='s'+n;
-    const nb=document.getElementById(pfx+'next-btn');
+    const nb=document.getElementById(pfx+'next_btn');
     if(nb){const sn=n;nb.onclick=()=>{saveProg(sn);goMenu();if(sn<5)setTimeout(()=>launch(sn+1),1400);};}
-    const rb=document.getElementById(pfx+'restart-btn');
+    const rb=document.getElementById(pfx+'restart_btn');
     if(rb){const sn=n;rb.onclick=()=>{saveProg(sn);goMenu();};}
   }
 },800);
