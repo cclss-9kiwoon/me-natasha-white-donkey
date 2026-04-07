@@ -144,7 +144,7 @@ function buildWorld() {
 buildWorld();
 
 // ── Word fragments ──
-const WORDS = ['가난한 내가', '아름다운 나타샤를', '오늘밤은 푹푹 눈이'];
+const WORDS = ['가난한 내가', '아름다운 나타샤를 사랑해서', '오늘밤은 푹푹 눈이 나린다'];
 let fragments = [];
 
 function initFragments() {
@@ -677,7 +677,10 @@ function collectFragment(i, word) {
   popup.textContent = word;
   const fx = (fragments[i].x - camX);
   const fy = fragments[i].y;
-  popup.style.left = fx + 'px';
+  // 화면 가장자리에 너무 붙으면 잘릴 수 있어 클램프 (translateX(-50%)로 중앙정렬됨)
+  const margin = 220;
+  const clampedX = Math.max(margin, Math.min(fx, W - margin));
+  popup.style.left = clampedX + 'px';
   popup.style.top  = fy + 'px';
   // @TUNABLE popupFontSize
   popup.style.fontSize = tunables.popupFontSize + 'px';
