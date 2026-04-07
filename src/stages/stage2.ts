@@ -1,5 +1,5 @@
-let _stage2Initialized = false;
 // @ts-nocheck
+let _stage2Initialized = false;
 export function initStage2() {
   if (_stage2Initialized) return;
   _stage2Initialized = true;

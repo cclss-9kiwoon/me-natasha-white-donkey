@@ -3,7 +3,12 @@
     "allow": [
       "Bash(wc -l /Users/cclss/Desktop/me-natasha-white-donkey/legacy/js/*.js)",
       "Bash(npm install:*)",
-      "Bash(npx vite:*)"
+      "Bash(npx vite:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)",
+      "Bash(ls /Users/cclss/Desktop/me-natasha-white-donkey/src/*.d.ts)",
+      "Bash(npm run:*)"
     ]
   }
 }
