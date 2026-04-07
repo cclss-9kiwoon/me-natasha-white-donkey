@@ -1,50 +1,95 @@
-# 나와 나타샤와 흰 당나귀 (Me, Natasha and the White Donkey) — POEM GAME
+# 나와 나타샤와 흰 당나귀 — POEM GAME
 
-백석 시인의 명시 **'나와 나타샤와 흰 당나귀'(1938)**를 테마로 한 웹 기반 시각적 인터랙티브 퍼즐 게임입니다.
+백석의 시 「나와 나타샤와 흰 당나귀」(1938)를 5개의 스테이지로 나눈 횡스크롤 탐험 게임입니다.
 
-## 📝 프로젝트 소개
-
-이 프로젝트는 한국 근대 문학의 대표작 중 하나인 백석의 시를 5개의 스테이지로 구성된 게임으로 재해석했습니다. 플레이어는 눈 내리는 밤, 마을에서 산골로 떠나는 서사를 따라가며 시 구절 조각들을 모으고 시 전체를 완성해 나가는 감성적인 경험을 제공합니다.
-
-## ✨ 주요 기능
-
-- **5단계 스테이지 구성**: 시의 전개에 따른 서사 중심의 스테이지 디자인
-  1. **눈 내리는 밤**: 시의 도입부, 가난한 화자와 나타샤의 사랑
-  2. **나타샤를 기다리며**: 주막 내부와 외부를 오가는 탐색 과정
-  3. **세상을 버리고**: 당나귀와 함께 마을을 떠나 고갯길을 오르는 여정
-  4. **흰 눈길과 초인**: 깊은 산속에서의 고독과 초인을 기다리는 마음
-  5. **나타샤와 흰 당나귀**: 산골 마을 도착 및 나타샤와의 재회 (엔딩)
-- **인터랙티브 요소**: 
-  - 방향키를 이용한 횡스크롤 이동 및 점프
-  - 아이템(시 구절 조각) 수집을 통한 시 완성 시스템
-  - 당나귀 타기/내리기 시스템 (스테이지 3~5)
-  - 주변 오브젝트 조사(E 키)를 통한 텍스트 읽기
-- **감성적 연출**: 가변적인 눈 내리는 효과, 패러랙스 스크롤링 배경, 잔잔한 파스텔 톤의 그래픽, 백석의 시를 활용한 타이포그래피.
-
-## 🛠 기술 스택
-
-- **HTML5**: 게임 구조 및 멀티 스테이지 관리
-- **CSS3**: 애니메이션 효과, 글래스모피즘 UI, 스테이지 전환 연출
-- **JavaScript (Vanilla JS)**: 
-  - HTML5 Canvas API를 이용한 커스텀 게임 엔진 구현
-  - 물리 엔진(중력, 충돌 판정), 카메라 제어, 파티클 시스템(눈송이)
-  - 게임 상태 관리 및 진행 상황 저장(LocalStorage)
-
-## 🚀 실행 방법
-
-본 프로젝트는 별도의 설치나 빌드 과정이 필요 없는 순수 웹 기술로 제작되었습니다.
-
-1. 이 저장소를 클론하거나 HTML 파일을 다운로드합니다.
-2. `me-natasha-white-donkey.html` 파일을 최신 웹 브라우저(Chrome, Edge, Safari 등)에서 엽니다.
-3. 마우스와 키보드(방향키, WASD, E, R, Space)를 사용하여 게임을 즐깁니다.
-
-## 🌐 GitHub Pages 배포 안내
-
-이 프로젝트를 GitHub Pages로 배포하려면 다음과 같은 절차를 권장합니다.
-
-1. `me-natasha-white-donkey.html` 파일의 이름을 **`index.html`**로 변경합니다. (GitHub Pages는 기본적으로 루트의 `index.html`을 시작 페이지로 인식합니다.)
-2. 변경된 사항을 GitHub 저장소에 푸시합니다.
-3. 저장소 설정(Settings) > Pages 탭에서 배포를 활성화합니다.
+**스택**: Vite + React + TypeScript + TanStack Router + HTML5 Canvas
 
 ---
-*이 게임은 백석 시인의 아름다운 시어를 시각적, 감각적으로 전달하기 위해 제작되었습니다.*
+
+## 실행
+
+```bash
+npm install
+npm run dev
+```
+
+브라우저에서 `http://localhost:5173` 열기.
+
+## 빌드
+
+```bash
+npm run build
+npm run preview
+```
+
+---
+
+## 프로젝트 구조
+
+```
+me-natasha-white-donkey/
+├── index.html                       # Vite entry
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+├── src/
+│   ├── main.tsx                     # React 엔트리
+│   ├── routeTree.tsx                # TanStack Router 라우트 정의
+│   ├── styles/
+│   │   └── common.css               # 모든 스타일
+│   ├── components/
+│   │   ├── Menu.tsx                 # 메인 메뉴 (/)
+│   │   ├── Settings.tsx             # 설정 (/settings)
+│   │   ├── PoemInfo.tsx             # 시 설명 (/poem)
+│   │   └── GameScreen.tsx           # 게임 (/game) - 5개 스테이지 관리
+│   └── stages/
+│       └── stage1.ts ~ stage5.ts    # 각 스테이지의 캔버스 게임 로직
+└── legacy/                          # 변환 전 원본 HTML/JS 백업
+    ├── index.html
+    ├── css/
+    └── js/
+```
+
+## 라우팅 (TanStack Router)
+
+| 경로 | 컴포넌트 | 설명 |
+|---|---|---|
+| `/` | `Menu` | 시작하기 / 설정 / 시 설명 |
+| `/settings` | `Settings` | 조작키 + 프로그램 구성 |
+| `/poem` | `PoemInfo` | 시 전문 + 시인 소개 + 해석 |
+| `/game` | `GameScreen` | 5개 스테이지가 자동으로 연결됨 |
+
+## 게임 플로우
+
+1. **Menu** → 시작하기 → `/game`
+2. **Stage 1** 타이틀 → 시작하기 → 게임플레이 → 클리어
+3. (3초 후 자동 전환) → **Stage 2** 타이틀 → … → **Stage 5** 엔딩
+4. 중간에 메뉴로 돌아가려면 `ESC`
+5. 엔딩 후 "처음부터 다시" 버튼으로 페이지 새로고침
+
+## 스테이지별 테마
+
+| # | 제목 | 배경 | 특수 메커닉 |
+|---|---|---|---|
+| 1 | 눈 내리는 밤 | 푸른 설원, 마을 실루엣 | 파편 3개 수집 |
+| 2 | 나타샤를 기다리며 | 주막 외부 → 내부 (2 rooms) | E키 조사, 방 전환 |
+| 3 | 세상을 버리고 | 고갯길 (오르막) | 당나귀 탑승 (R) |
+| 4 | 흰 눈길과 초인 | 깊은 산 속 | 당나귀 + 초인 이벤트 |
+| 5 | 나타샤와 흰 당나귀 | 산골 마을 (엔딩) | 엔딩 오버레이 |
+
+## 기술 메모
+
+- 각 스테이지의 캔버스 게임 로직은 `src/stages/stageN.ts`에 들어있음 (vanilla JS/DOM 기반, `initStageN()` export).
+- `GameScreen.tsx`가 마운트될 때 5개 스테이지를 모두 초기화하고, CSS class `.active`로 가시성을 전환함.
+- 스테이지 클리어 시 `window.onStageClear(N)`을 호출 → React가 다음 스테이지로 전환.
+- 마지막 스테이지는 `window.onGameComplete()`를 호출하고 자체 엔딩 화면 표시.
+- React StrictMode의 이중 mount에 대비해 `_stageNInitialized` flag로 idempotent 처리.
+
+## 새 시(詩)로 프로젝트 만들기
+
+`/Desktop/PoemGameProject/CreatePoemGameProject.md`를 AI에게 전달하고 **시 제목 + 시인**만 알려주면 동일 구조의 프로젝트를 자동 생성합니다.
+
+예:
+```
+포임게임 만들어줘: 윤동주 「서시」
+```

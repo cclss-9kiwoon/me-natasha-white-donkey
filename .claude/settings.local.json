@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /Users/cclss/Desktop/me-natasha-white-donkey/legacy/js/*.js)",
+      "Bash(npm install:*)",
+      "Bash(npx vite:*)"
+    ]
+  }
+}

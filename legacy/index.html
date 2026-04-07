@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나와 나타샤와 흰 당나귀 — POEM GAME</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     MENU SCREEN
+     ═══════════════════════════════════════════ -->
+<div id="menu-screen">
+  <div class="menu-tag">POEM GAME · 제1편</div>
+  <div class="menu-title">나와 나타샤와<br>흰 당나귀</div>
+  <div class="menu-author">백석 (白石)</div>
+  <div class="menu-year">1938</div>
+  <div class="menu-buttons">
+    <button class="menu-btn" onclick="GameController.startGame()">시작하기</button>
+    <button class="menu-btn" onclick="GameController.showSettings()">설정</button>
+    <button class="menu-btn" onclick="GameController.showPoemInfo()">나와 나타샤와 흰 당나귀란</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SETTINGS SCREEN
+     ═══════════════════════════════════════════ -->
+<div id="settings-screen">
+  <div class="set-title">설정</div>
+
+  <div class="set-section">
+    <h3>조작키</h3>
+    <div class="key-row"><span class="key-label">← → ↑</span><span class="key-desc">이동 및 점프</span></div>
+    <div class="key-row"><span class="key-label">A D W</span><span class="key-desc">이동 및 점프 (대체)</span></div>
+    <div class="key-row"><span class="key-label">Space</span><span class="key-desc">점프</span></div>
+    <div class="key-row"><span class="key-label">E</span><span class="key-desc">오브젝트 조사</span></div>
+    <div class="key-row"><span class="key-label">R</span><span class="key-desc">당나귀 탑승 / 하차</span></div>
+  </div>
+
+  <div class="set-section">
+    <h3>프로그램 구성</h3>
+    <p>
+      이 게임은 백석의 시 「나와 나타샤와 흰 당나귀」를 다섯 개의 스테이지로 나누어,
+      각 구절의 파편을 수집하며 시를 완성하는 횡스크롤 탐험 게임입니다.<br><br>
+      각 스테이지는 시의 한 연에 대응하며,
+      흩어진 시어(詩語)를 모두 모으면 다음 스테이지로 자동 전환됩니다.<br><br>
+      마우스 커서는 게임 세계의 탐색 포인터로 사용되며,
+      모든 그래픽은 HTML5 Canvas로 실시간 렌더링됩니다.
+    </p>
+  </div>
+
+  <button class="back-btn" onclick="GameController.showMenu()">← 돌아가기</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     POEM INFO SCREEN
+     ═══════════════════════════════════════════ -->
+<div id="poem-screen">
+  <div class="poem-info-wrap">
+    <div class="pi-title">나와 나타샤와 흰 당나귀</div>
+    <div class="pi-author">백석 (白石, 1912–1996)</div>
+
+    <div class="pi-poem">
+      가난한 내가<br>
+      아름다운 나타샤를 사랑해서<br>
+      오늘밤은 푹푹 눈이 나린다<br><br>
+      나타샤를 사랑은 하고<br>
+      눈은 푹푹 날리고<br>
+      나는 혼자 쓸쓸히 앉어 소주를 마신다<br><br>
+      나타샤와 나는<br>
+      눈이 푹푹 쌓이는 밤 흰 당나귀 타고<br>
+      산골로 가자 출출이 우는 깊은 산골로 가자<br><br>
+      산골로 가는 것은 세상한테 지는 것이 아니다<br>
+      세상 같은 건 더러워 버리는 것이다<br><br>
+      눈은 푹푹 나리고<br>
+      나는 나타샤를 생각하고<br>
+      나타샤가 아니올 시 출출이 울고<br>
+      백마 타고 오는 초인이 있어<br>
+      이 밤이 지새도록 나는 우는 것이다<br><br>
+      나타샤는 나를 사랑하고<br>
+      어데서 흰 당나귀도 오늘밤이 좋아서<br>
+      응앙응앙 울 것이다
+    </div>
+
+    <div class="pi-desc">
+      <p>
+        백석(본명 백기행)은 평안북도 정주 출신의 시인으로,
+        일제강점기에 조선어의 아름다움을 지키며 향토적이고 서정적인 시를 썼습니다.
+        1936년 첫 시집 『사슴』을 출간하며 문단에 등장했습니다.
+      </p>
+      <p>
+        이 시에서 '나타샤'는 실제 연인 김자야(기생 출신, 본명 김영한)로 알려져 있습니다.
+        백석은 그녀를 깊이 사랑했으나, 신분의 차이와 시대의 격랑 속에서
+        결국 헤어지게 됩니다.
+      </p>
+      <p>
+        「나와 나타샤와 흰 당나귀」(1938)는 단순한 사랑 고백이 아닙니다.
+        '산골로 가자'는 세상으로부터의 도피가 아니라,
+        더러운 세상을 등지고 순수한 사랑을 향해 떠나는 적극적인 탈주입니다.
+        '흰 당나귀'는 이 순수한 여정의 동반자이자,
+        초라하지만 진실한 사랑의 상징입니다.
+      </p>
+      <p>
+        해방 이후 북한에 남게 된 백석은 문학적 자유를 잃고
+        양치기, 농장 관리인 등으로 살다 1996년 세상을 떠났습니다.
+        김영한은 남한에서 평생 그를 그리워하며, 2000년대에 회고록을 남겼습니다.
+      </p>
+    </div>
+
+    <button class="back-btn" onclick="GameController.showMenu()">← 돌아가기</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN TRANSITION OVERLAY
+     ═══════════════════════════════════════════ -->
+<div id="screen-transition"></div>
+<div id="stage-interlude">
+  <div class="si-label" id="si-label"></div>
+  <div class="si-title" id="si-title"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     STAGE 1 — 눈 내리는 밤
+     ═══════════════════════════════════════════ -->
+<div class="sw" id="sw1">
+  <svg id="s1cursor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+    <circle cx="10" cy="10" r="4"/>
+    <circle cx="10" cy="10" r="8" fill="none" stroke="rgba(200,230,255,0.3)" stroke-width="0.5"/>
+  </svg>
+  <canvas id="s1snow_canvas"></canvas>
+  <canvas id="s1game_canvas"></canvas>
+  <div id="s1hud">
+    <div id="s1poem_strip">
+      <div class="poem-line" id="s1line1">가난한 내가</div>
+      <div class="poem-line" id="s1line2">아름다운 나타샤를 사랑해서</div>
+      <div class="poem-line" id="s1line3">오늘밤은 푹푹 눈이 나린다</div>
+    </div>
+    <div id="s1stage_label">Stage 1 · 눈 내리는 밤</div>
+    <div id="s1fragment_hud">
+      <div class="frag-dot" id="s1dot0"></div>
+      <div class="frag-dot" id="s1dot1"></div>
+      <div class="frag-dot" id="s1dot2"></div>
+    </div>
+    <div id="controls-hint">방향키 / WASD · 이동<br>마우스 · 탐색</div>
+    <div id="word-popup"></div>
+  </div>
+  <div id="s1stage_clear">
+    <div class="clear-poem">
+      가난한 내가<br>
+      아름다운 나타샤를 사랑해서<br>
+      오늘밤은 푹푹 눈이 나린다
+    </div>
+    <div class="poet-note">— 백석, 1938</div>
+  </div>
+  <div id="s1title_screen">
+    <div class="title-label">POEM GAME · 제1편</div>
+    <div class="title-main">나와 나타샤와<br>흰 당나귀</div>
+    <div class="title-sub">스테이지 1 — 눈 내리는 밤</div>
+    <div class="title-author">백석 (白石)</div>
+    <button id="s1start_btn" onclick="startGame()">시작하기</button>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     STAGE 2 — 나타샤를 기다리며
+     ═══════════════════════════════════════════ -->
+<div class="sw" id="sw2">
+  <svg id="s2cursor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+    <circle cx="9" cy="9" r="3" fill="rgba(230,190,100,0.8)"/>
+    <circle cx="9" cy="9" r="7" fill="none" stroke="rgba(200,160,80,0.3)" stroke-width="0.5"/>
+  </svg>
+  <canvas id="s2bg_canvas"></canvas>
+  <canvas id="s2game_canvas"></canvas>
+  <div id="s2hud">
+    <div id="s2poem_strip">
+      <div class="poem-line" id="s2l1">나타샤를 사랑은 하고</div>
+      <div class="poem-line" id="s2l2">눈은 푹푹 날리고</div>
+      <div class="poem-line" id="s2l3">나는 혼자 쓸쓸히 앉어 소주를 마신다</div>
+      <div class="poem-line" id="s2l4">나타샤와 나는</div>
+      <div class="poem-line" id="s2l5">눈이 푹푹 쌓이는 밤 흰 당나귀 타고</div>
+      <div class="poem-line" id="s2l6">산골로 가자 출출이 우는 깊은 산골로 가자</div>
+    </div>
+    <div id="s2stage_label">Stage 2 · 나타샤를 기다리며</div>
+    <div id="s2fragment_hud">
+      <div class="frag-dot" id="s2d0"></div>
+      <div class="frag-dot" id="s2d1"></div>
+      <div class="frag-dot" id="s2d2"></div>
+      <div class="frag-dot" id="s2d3"></div>
+      <div class="frag-dot" id="s2d4"></div>
+      <div class="frag-dot" id="s2d5"></div>
+      <div class="frag-dot" id="s2d6"></div>
+    </div>
+    <div id="s2ctrl">방향키 이동 · ↑ 점프<br>E · 오브젝트 조사</div>
+    <div id="s2thought"></div>
+    <div id="s2word_flash"></div>
+    <div id="s2room_caption"></div>
+  </div>
+  <div id="s2stage_clear">
+    <div class="clear-poem">
+      나타샤를 사랑은 하고<br>
+      눈은 푹푹 날리고<br>
+      나는 혼자 쓸쓸히 앉어 소주를 마신다<br>
+      나타샤와 나는<br>
+      눈이 푹푹 쌓이는 밤 흰 당나귀 타고<br>
+      산골로 가자 출출이 우는 깊은 산골로 가자
+    </div>
+    <div class="poet-note">— 백석, 1938</div>
+  </div>
+  <div id="s2title_screen">
+    <div class="t-tag">POEM GAME · 제1편</div>
+    <div class="t-main">나타샤를<br>기다리며</div>
+    <div class="t-sub">스테이지 2 — 주막의 밤</div>
+    <button id="s2start_btn" onclick="startGame()">시작하기</button>
+  </div>
+  <div id="s2room_transition"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     STAGE 3 — 세상을 버리고
+     ═══════════════════════════════════════════ -->
+<div class="sw" id="sw3">
+  <svg id="s3cursor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+    <circle cx="9" cy="9" r="3" fill="rgba(200,235,150,0.85)"/>
+    <circle cx="9" cy="9" r="7" fill="none" stroke="rgba(170,215,110,0.3)" stroke-width="0.5"/>
+  </svg>
+  <canvas id="s3game_canvas"></canvas>
+  <div id="s3hud">
+    <div id="s3poem_strip">
+      <div class="poem-line" id="s3l0">산골로 가는 것은 세상한테 지는 것이 아니다</div>
+      <div class="poem-line" id="s3l1">세상 같은 건 더러워 버리는 것이다</div>
+    </div>
+    <div id="s3stage_label">Stage 3 · 세상을 버리고</div>
+    <div id="s3fragment_hud">
+      <div class="frag-dot" id="s3d0"></div>
+      <div class="frag-dot" id="s3d1"></div>
+      <div class="frag-dot" id="s3d2"></div>
+      <div class="frag-dot" id="s3d3"></div>
+      <div class="frag-dot" id="s3d4"></div>
+    </div>
+    <div id="s3ctrl">방향키 이동 · ↑ 점프<br>R · 당나귀 탑승/하차<br>E · 조사</div>
+    <div id="s3mount_hint">[ R ] 당나귀에 올라타기</div>
+    <div id="s3mounted_indicator">🫏 당나귀를 타고 있다</div>
+    <div id="s3word_flash"></div>
+    <div id="s3thought"></div>
+    <div id="s3room_caption"></div>
+  </div>
+  <div id="s3stage_clear">
+    <div class="clear-poem">
+      산골로 가는 것은<br>세상한테 지는 것이 아니다<br>
+      세상 같은 건<br>더러워 버리는 것이다
+    </div>
+    <div class="poet-note">— 백석, 1938</div>
+  </div>
+  <div id="s3title_screen">
+    <div class="t-tag">POEM GAME · 제1편</div>
+    <div class="t-main">세상을<br>버리고</div>
+    <div class="t-sub">스테이지 3 — 고갯길</div>
+    <div class="t-verse">
+      산골로 가는 것은 세상한테 지는 것이 아니다<br>
+      세상 같은 건 더러워 버리는 것이다
+    </div>
+    <button id="s3start_btn" onclick="startGame()">시작하기</button>
+  </div>
+  <div id="s3room_transition"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     STAGE 4 — 흰 눈길과 초인
+     ═══════════════════════════════════════════ -->
+<div class="sw" id="sw4">
+  <svg id="s4cursor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+    <circle cx="9" cy="9" r="3" fill="rgba(170,195,255,0.8)"/>
+    <circle cx="9" cy="9" r="7" fill="none" stroke="rgba(140,170,240,0.28)" stroke-width="0.5"/>
+  </svg>
+  <canvas id="s4game_canvas"></canvas>
+  <div id="s4hud">
+    <div id="s4poem_strip">
+      <div class="poem-line" id="s4l0">눈은 푹푹 나리고</div>
+      <div class="poem-line" id="s4l1">나는 나타샤를 생각하고</div>
+      <div class="poem-line" id="s4l2">나타샤가 아니올 시 출출이 울고</div>
+      <div class="poem-line" id="s4l3">백마 타고 오는 초인이 있어</div>
+      <div class="poem-line" id="s4l4">이 밤이 지새도록 나는 우는 것이다</div>
+    </div>
+    <div id="s4stage_label">Stage 4 · 흰 눈길과 초인</div>
+    <div id="s4fragment_hud">
+      <div class="frag-dot" id="s4d0"></div>
+      <div class="frag-dot" id="s4d1"></div>
+      <div class="frag-dot" id="s4d2"></div>
+      <div class="frag-dot" id="s4d3"></div>
+      <div class="frag-dot" id="s4d4"></div>
+    </div>
+    <div id="s4ctrl">방향키 이동 · ↑ 점프<br>R · 탑승/하차 · E · 조사</div>
+    <div id="s4mount_hint">[ R ] 당나귀에 올라타기</div>
+    <div id="s4mounted_bar">🫏 당나귀를 타고 있다</div>
+    <div id="s4word_flash"></div>
+    <div id="s4thought"></div>
+  </div>
+  <div id="s4choin_overlay">
+    <div id="s4choin_text"></div>
+  </div>
+  <div id="s4stage_clear">
+    <div class="clear-poem">
+      눈은 푹푹 나리고<br>
+      나는 나타샤를 생각하고<br>
+      나타샤가 아니올 시 출출이 울고<br>
+      백마 타고 오는 초인이 있어<br>
+      이 밤이 지새도록 나는 우는 것이다
+    </div>
+    <div class="poet-note">— 백석, 1938</div>
+  </div>
+  <div id="s4title_screen">
+    <div class="t-tag">POEM GAME · 제1편</div>
+    <div class="t-main">흰 눈길과<br>초인</div>
+    <div class="t-sub">스테이지 4 — 깊은 산 속</div>
+    <div class="t-verse">
+      백마 타고 오는 초인이 있어<br>
+      이 밤이 지새도록 나는 우는 것이다
+    </div>
+    <button id="s4start_btn" onclick="startGame()">시작하기</button>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     STAGE 5 — 나타샤와 흰 당나귀
+     ═══════════════════════════════════════════ -->
+<div class="sw" id="sw5">
+  <svg id="s5cursor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+    <circle cx="9" cy="9" r="3" fill="rgba(255,210,120,0.85)"/>
+    <circle cx="9" cy="9" r="7" fill="none" stroke="rgba(230,185,80,0.3)" stroke-width="0.5"/>
+  </svg>
+  <canvas id="s5game_canvas"></canvas>
+  <div id="s5hud">
+    <div id="s5poem_strip">
+      <div class="poem-line" id="s5l0">나타샤는 나를 사랑하고</div>
+      <div class="poem-line" id="s5l1">어데서 흰 당나귀도 오늘밤이 좋아서</div>
+      <div class="poem-line" id="s5l2">응앙응앙 울 것이다</div>
+    </div>
+    <div id="s5stage_label">Stage 5 · 나타샤와 흰 당나귀</div>
+    <div id="s5fragment_hud">
+      <div class="frag-dot" id="s5d0"></div>
+      <div class="frag-dot" id="s5d1"></div>
+      <div class="frag-dot" id="s5d2"></div>
+    </div>
+    <div id="s5ctrl">방향키 이동 · ↑ 점프<br>R · 탑승/하차</div>
+    <div id="s5mount_hint">[ R ] 당나귀에 올라타기</div>
+    <div id="s5mounted_bar">🫏 당나귀를 타고 있다</div>
+    <div id="s5word_flash"></div>
+    <div id="s5thought"></div>
+  </div>
+  <div id="s5natasha_overlay">
+    <div id="s5natasha_text"></div>
+  </div>
+  <div id="s5ending_screen">
+    <div id="s5ending_poem">
+      가난한 내가<br>
+      아름다운 나타샤를 사랑해서<br>
+      오늘밤은 푹푹 눈이 나린다<br><br>
+      나타샤를 사랑은 하고<br>
+      눈은 푹푹 날리고<br>
+      나는 혼자 쓸쓸히 앉어 소주를 마신다<br><br>
+      나타샤와 나는<br>
+      눈이 푹푹 쌓이는 밤 흰 당나귀 타고<br>
+      산골로 가자<br><br>
+      산골로 가는 것은 세상한테 지는 것이 아니다<br>
+      세상 같은 건 더러워 버리는 것이다<br><br>
+      백마 타고 오는 초인이 있어<br>
+      이 밤이 지새도록 나는 우는 것이다<br><br>
+      나타샤는 나를 사랑하고<br>
+      어데서 흰 당나귀도 오늘밤이 좋아서<br>
+      응앙응앙 울 것이다
+    </div>
+    <div id="s5ending_poet">— 백석 (白石), 1938</div>
+    <div id="s5ending_author_note">
+      백석(1912–1996)은 평북 정주 출신의 시인입니다.<br>
+      일제강점기, 조선어의 아름다움을 지키며 향토적 시를 썼습니다.<br>
+      나타샤는 실제 연인 김자야(기생 출신)로 알려져 있으며<br>
+      이 시는 세상으로부터의 도피가 아닌,<br>순수한 사랑을 향한 탈주를 노래합니다.
+    </div>
+    <button id="s5restart_btn" onclick="location.reload()">처음부터 다시</button>
+  </div>
+  <div id="s5title_screen">
+    <div class="t-tag">POEM GAME · 제1편 · 마지막 스테이지</div>
+    <div class="t-main">나타샤와<br>흰 당나귀</div>
+    <div class="t-sub">스테이지 5 — 산골 마을</div>
+    <div class="t-verse">나타샤는 나를 사랑하고<br>어데서 흰 당나귀도 오늘밤이 좋아서<br>응앙응앙 울 것이다</div>
+    <button id="s5start_btn" onclick="startGame()">시작하기</button>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════ -->
+<script src="js/game.js"></script>
+<script src="js/stage1.js"></script>
+<script src="js/stage2.js"></script>
+<script src="js/stage3.js"></script>
+<script src="js/stage4.js"></script>
+<script src="js/stage5.js"></script>
+
+</body>
+</html>
