@@ -4,3 +4,6 @@ dist
 *.log
 .env
 .vite
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
