@@ -64,7 +64,7 @@ let birds=[];
 let footsteps=[];
 let footstepTimer=0;
 
-const FRAG_WORDS=['눈은 푹푹 나리고','나타샤를 생각하고','출출이 울고','초인이 있어','이 밤이 지새도록'];
+const FRAG_WORDS=['눈은 푹푹 나리고','나는 나타샤를 생각하고','나타샤가 아니올 시 출출이 울고','백마 타고 오는 초인이 있어','이 밤이 지새도록 나는 우는 것이다'];
 const FRAG_LINES=[[0],[1],[2],[3],[4]];
 
 // ── WORLD ──
@@ -350,7 +350,8 @@ function collectFrag(f){
   });
   const fl=document.getElementById('s4word_flash');
   fl.textContent=FRAG_WORDS[f.id];
-  fl.style.left=(f.x-camX)+'px'; fl.style.top=(f.y-32)+'px';
+  const _m=220, _sx=f.x-camX;
+  fl.style.left=Math.max(_m,Math.min(_sx,window.innerWidth-_m))+'px'; fl.style.top=(f.y-32)+'px';
   // @TUNABLE popupFontSize
   fl.style.fontSize = tunables.popupFontSize + 'px';
   fl.classList.add('show');

@@ -62,7 +62,7 @@ let villageGlow=0;
 const snowPtcls=[];
 for(let i=0;i<140;i++) snowPtcls.push({x:Math.random()*4000,y:Math.random()*900,r:Math.random()*2+0.3,sp:Math.random()*0.55+0.15,dr:(Math.random()-0.5)*0.2,ph:Math.random()*Math.PI*2});
 
-const FRAG_WORDS=['나타샤는 나를 사랑하고','응앙응앙 울 것이다','오늘밤이 좋아서'];
+const FRAG_WORDS=['나타샤는 나를 사랑하고','응앙응앙 울 것이다','어데서 흰 당나귀도 오늘밤이 좋아서'];
 const FRAG_LINES=[[0],[2],[1]];
 
 const player={x:120,y:0,vx:0,vy:0,w:20,h:46,onGround:false,dir:1,walkT:0,breathT:0,mounted:false};
@@ -219,7 +219,9 @@ function collectFrag(f){
   document.getElementById('s5d'+f.id).classList.add('lit');
   (FRAG_LINES[f.id]||[]).forEach(li=>{ const el=document.getElementById('s5l'+li); if(el)el.classList.add('lit'); });
   const fl=document.getElementById('s5word_flash');
-  fl.textContent=FRAG_WORDS[f.id]; fl.style.left=(f.x-camX)+'px'; fl.style.top=(f.y-32)+'px';
+  fl.textContent=FRAG_WORDS[f.id];
+  const _m=220, _sx=f.x-camX;
+  fl.style.left=Math.max(_m,Math.min(_sx,window.innerWidth-_m))+'px'; fl.style.top=(f.y-32)+'px';
   // @TUNABLE popupFontSize
   fl.style.fontSize = tunables.popupFontSize + 'px';
   fl.classList.add('show');

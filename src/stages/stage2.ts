@@ -45,9 +45,9 @@ const FRAG_LINES = [[0],[1],[2],[3,4],[5],[],[]] ; // last 2 are bonus pickups
 const FRAG_WORDS = [
   '나타샤를 사랑은 하고',
   '눈은 푹푹 날리고',
-  '나는 혼자 쓸쓸히',
-  '나타샤와 나는',
-  '산골로 가자',
+  '나는 혼자 쓸쓸히 앉어 소주를 마신다',
+  '나타샤와 나는\n눈이 푹푹 쌓이는 밤 흰 당나귀 타고',
+  '산골로 가자 출출이 우는 깊은 산골로 가자',
   '소주를 마신다',
   '흰 당나귀 타고',
 ];
@@ -279,7 +279,9 @@ function collectFrag(f) {
   const fl=document.getElementById('s2word_flash');
   fl.textContent=FRAG_WORDS[f.id]||'';
   const sx=f.x-camX; const sy=f.y-20;
-  fl.style.left=sx+'px'; fl.style.top=sy+'px';
+  const margin=220;
+  const cx=Math.max(margin,Math.min(sx,window.innerWidth-margin));
+  fl.style.left=cx+'px'; fl.style.top=sy+'px';
   // @TUNABLE popupFontSize
   fl.style.fontSize = tunables.popupFontSize + 'px';
   fl.classList.add('show');
